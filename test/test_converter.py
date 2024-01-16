@@ -1,4 +1,4 @@
-# Copyright (c) 2023 TIER IV.inc
+# Copyright (c) 2024 TIER IV.inc
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -50,3 +50,7 @@ def test_convert_msg() -> None:
         stamp=now,
         mode=aw_vehicle.ControlModeReport.AUTONOMOUS,
     )
+
+
+def test_import() -> None:
+    import autoware_common_msgs
