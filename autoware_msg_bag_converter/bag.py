@@ -12,9 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from rosbag2_py import ConverterOptions
 from rosbag2_py import SequentialReader
 from rosbag2_py import SequentialWriter
-from rosbag2_py import ConverterOptions
 from rosbag2_py import StorageOptions
 
 
@@ -24,11 +24,13 @@ def get_default_converter_options() -> ConverterOptions:
         output_serialization_format="cdr",
     )
 
+
 def get_default_storage_options(uri: str) -> StorageOptions:
     return StorageOptions(
         uri=uri,
         storage_id="sqlite3",
     )
+
 
 def create_reader(bag_dir: str) -> SequentialReader:
     storage_options = get_default_storage_options(bag_dir)
@@ -37,6 +39,7 @@ def create_reader(bag_dir: str) -> SequentialReader:
     reader = SequentialReader()
     reader.open(storage_options, converter_options)
     return reader
+
 
 def create_writer(bag_dir: str) -> SequentialWriter:
     storage_options = get_default_storage_options(bag_dir)

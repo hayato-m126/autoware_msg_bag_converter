@@ -18,7 +18,8 @@ from builtin_interfaces.msg import Time
 from rclpy.clock import Clock
 from rosbag2_py import TopicMetadata
 
-from autoware_msg_bag_converter.converter import change_topic_type, convert_msg
+from autoware_msg_bag_converter.converter import change_topic_type
+from autoware_msg_bag_converter.converter import convert_msg
 
 
 def get_time_now() -> Time:
@@ -41,9 +42,11 @@ def test_change_topic_type() -> None:
 def test_convert_msg() -> None:
     now = get_time_now()
     auto_control_report = auto_vechile.ControlModeReport(
-        stamp=now, mode=auto_vechile.ControlModeReport.AUTONOMOUS
+        stamp=now,
+        mode=auto_vechile.ControlModeReport.AUTONOMOUS,
     )
     aw_control_report = convert_msg(auto_control_report)
     assert aw_control_report == aw_vehicloe.ControlModeReport(
-        stamp=now, mode=aw_vehicloe.ControlModeReport.AUTONOMOUS
+        stamp=now,
+        mode=aw_vehicloe.ControlModeReport.AUTONOMOUS,
     )

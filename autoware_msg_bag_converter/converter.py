@@ -18,13 +18,12 @@
 
 from typing import Any
 
-from rosbag2_py import Reindexer, TopicMetadata
+from rosbag2_py import Reindexer
+from rosbag2_py import TopicMetadata
 
-from autoware_msg_bag_converter.bag import (
-    create_reader,
-    create_writer,
-    get_default_storage_options,
-)
+from autoware_msg_bag_converter.bag import create_reader
+from autoware_msg_bag_converter.bag import create_writer
+from autoware_msg_bag_converter.bag import get_default_storage_options
 from autoware_msg_bag_converter.msg import *  # noqa
 
 
@@ -53,7 +52,7 @@ def convert_bag(input_bag_path: str, output_bag_path: str):
     for topic_type in reader.get_all_topics_and_types():
         type_map[topic_type.name] = topic_type.type
         new_topic_type = change_topic_type(
-            topic_type
+            topic_type,
         )  # change autoware_auto_msg type with autoware_msg type
         writer.create_topic(new_topic_type)
 
