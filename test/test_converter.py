@@ -12,28 +12,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import autoware_auto_vehicle_msgs.msg as auto
-import autoware_vehicle_msgs.msg as aw
+import autoware_auto_vehicle_msgs.msg as auto_vechile
+import autoware_vehicle_msgs.msg as aw_vehicloe
 from builtin_interfaces.msg import Time
 from rclpy.clock import Clock
 from rosbag2_py import TopicMetadata
 
-import autoware_msg_bag_converter.msg_converter.vehicle as msg_converter
 from autoware_msg_bag_converter.converter import change_topic_type, convert_msg
 
 
 def get_time_now() -> Time:
     stamp = Clock().now()
     return stamp.to_msg()
-
-
-def test_control_mode_report() -> None:
-    now = get_time_now()
-    auto_msg = auto.ControlModeReport(stamp=now, mode=auto.ControlModeReport.AUTONOMOUS)
-    aw_msg = msg_converter.control_mode_report(auto_msg)
-    assert aw_msg == aw.ControlModeReport(
-        stamp=now, mode=aw.ControlModeReport.AUTONOMOUS
-    )
 
 
 def test_change_topic_type() -> None:
@@ -50,10 +40,10 @@ def test_change_topic_type() -> None:
 
 def test_convert_msg() -> None:
     now = get_time_now()
-    auto_control_report = auto.ControlModeReport(
-        stamp=now, mode=auto.ControlModeReport.AUTONOMOUS
+    auto_control_report = auto_vechile.ControlModeReport(
+        stamp=now, mode=auto_vechile.ControlModeReport.AUTONOMOUS
     )
     aw_control_report = convert_msg(auto_control_report)
-    assert aw_control_report == aw.ControlModeReport(
-        stamp=now, mode=aw.ControlModeReport.AUTONOMOUS
+    assert aw_control_report == aw_vehicloe.ControlModeReport(
+        stamp=now, mode=aw_vehicloe.ControlModeReport.AUTONOMOUS
     )

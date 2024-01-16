@@ -18,8 +18,6 @@
 
 from typing import Any
 
-import autoware_vehicle_msgs  # noqa
-import builtin_interfaces  # noqa
 from rosbag2_py import Reindexer, TopicMetadata
 
 from autoware_msg_bag_converter.bag import (
@@ -27,6 +25,7 @@ from autoware_msg_bag_converter.bag import (
     create_writer,
     get_default_storage_options,
 )
+from autoware_msg_bag_converter.msg import *  # noqa
 
 
 def change_topic_type(old_type: TopicMetadata) -> TopicMetadata:
