@@ -38,10 +38,10 @@ def change_topic_type(old_type: TopicMetadata) -> TopicMetadata:
 def convert_msg(old_msg: Any) -> Any:
     old_representation = repr(old_msg)
     new_representation = old_representation.replace("autoware_auto_", "autoware_")
-    return eval(new_representation)
+    return eval(new_representation)  # noqa
 
 
-def convert_bag(input_bag_path: str, output_bag_path: str):
+def convert_bag(input_bag_path: str, output_bag_path: str) -> None:
     # open reader
     reader = create_reader(input_bag_path)
     # open writer
