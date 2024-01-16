@@ -18,7 +18,7 @@ from os.path import expandvars
 from autoware_msg_bag_converter.converter import convert_bag
 
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("input", help="path of input bag with autoware_auto_msgs")
     parser.add_argument("output", help="path of output bag with autoware_msgs")
