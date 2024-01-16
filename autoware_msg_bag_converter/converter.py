@@ -12,49 +12,55 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import argparse
-from os.path import expandvars
+# refer the test code of rosbag2_py
+# https://github.com/ros2/rosbag2/blob/rolling/rosbag2_py/test/test_sequential_writer.py
+# https://github.com/ros2/rosbag2/blob/rolling/rosbag2_py/test/test_reindexer.py
+
+from typing import Any
+
+from rosbag2_py import Reindexer, TopicMetadata
+
+from autoware_msg_bag_converter.bag import (
+    create_reader,
+    create_writer,
+    get_default_storage_options,
+)
 
 
-def convert(self):
+def change_topic_type(old_type: TopicMetadata) -> TopicMetadata:
+    return TopicMetadata(
+        name=old_type.name,
+        type=old_type.type.replace("autoware_auto_", "autoware_"),
+        serialization_format="cdr",
+        offered_qos_profiles=old_type.offered_qos_profiles,
+    )
+
+
+def convert_msg(topic_name: str, msg: Any, type_map: dict) -> tuple[str, Any]:
+    pass
+
+
+def convert_bag(input_bag_path: str, output_bag_path: str):
     # open reader
-    reader, _, _ = self.__create_reader()
+    reader = create_reader(input_bag_path)
     # open writer
-    writer, storage_options, _ = self.__create_writer()
+    writer = create_writer(output_bag_path)
 
-    # first, write topic before write rosbag
-    topic_type_list = {}
+    # create topic
+    type_map = {}
     for topic_type in reader.get_all_topics_and_types():
-        topic_type_list[topic_type.name] = topic_type.type
-        if topic_type.name in list(self.__convert_dict.keys()):
-            topic_type = rosbag2_py.TopicMetadata(
-                name=self.__convert_dict[topic_type.name][0],
-                type=self.__convert_dict[topic_type.name][1],
-                serialization_format="cdr",
-                offered_qos_profiles=topic_type.offered_qos_profiles,
-            )
-        writer.create_topic(topic_type)
+        type_map[topic_type.name] = topic_type.type
+        new_topic_type = change_topic_type(
+            topic_type
+        )  # change autoware_auto_msg type with autoware_msg type
+        writer.create_topic(new_topic_type)
 
-    self.__convert_qos_file()
-
-    # convert topic and write to output bag
+    # convert msg type and write to output bag
     while reader.has_next():
         topic_name, msg, stamp = reader.read_next()
-        topic_name, msg = self.__convert_iv_topic(topic_name, msg, topic_type_list)
-        if topic_name not in SKIP_TOPIC_LIST:
-            writer.write(topic_name, msg, stamp)
+        topic_name, msg = convert_msg(topic_name, msg, type_map)
+        writer.write(topic_name, msg, stamp)
+
     # reindex to update metadata.yaml
     del writer
-    rosbag2_py.Reindexer().reindex(storage_options)
-
-
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("input", help="path of input bag with autoware_auto_msgs")
-    parser.add_argument("output", help="path of output bag with autoweare_msgs")
-    args = parser.parse_args()
-    convert(expandvars(args.input), expandvars(args.output))
-
-
-if __name__ == "__main__":
-    main()
+    Reindexer().reindex(get_default_storage_options(output_bag_path))
