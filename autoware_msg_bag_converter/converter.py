@@ -18,6 +18,8 @@
 
 from typing import Any
 
+import autoware_vehicle_msgs  # noqa
+import builtin_interfaces  # noqa
 from rosbag2_py import Reindexer, TopicMetadata
 
 from autoware_msg_bag_converter.bag import (
@@ -32,12 +34,13 @@ def change_topic_type(old_type: TopicMetadata) -> TopicMetadata:
         name=old_type.name,
         type=old_type.type.replace("autoware_auto_", "autoware_"),
         serialization_format="cdr",
-        offered_qos_profiles=old_type.offered_qos_profiles,
     )
 
 
-def convert_msg(topic_name: str, msg: Any, type_map: dict) -> tuple[str, Any]:
-    pass
+def convert_msg(old_msg: Any) -> Any:
+    old_representation = repr(old_msg)
+    new_representation = old_representation.replace("autoware_auto_", "autoware_")
+    return eval(new_representation)
 
 
 def convert_bag(input_bag_path: str, output_bag_path: str):
@@ -57,9 +60,9 @@ def convert_bag(input_bag_path: str, output_bag_path: str):
 
     # convert msg type and write to output bag
     while reader.has_next():
-        topic_name, msg, stamp = reader.read_next()
-        topic_name, msg = convert_msg(topic_name, msg, type_map)
-        writer.write(topic_name, msg, stamp)
+        topic_name, old_msg, stamp = reader.read_next()
+        new_msg = convert_msg(old_msg)
+        writer.write(topic_name, new_msg, stamp)
 
     # reindex to update metadata.yaml
     del writer
