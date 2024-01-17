@@ -15,12 +15,4 @@ if(BUILD_TESTING)
 endif()
 
 ament_python_install_package(${PROJECT_NAME})
-install(PROGRAMS
-  scripts/converter_node.py
-  DESTINATION lib/${PROJECT_NAME}
-)
 ament_auto_package()
-
-# ament_auto_package(INSTALL_TO_SHARE
-#   launch
-# )
