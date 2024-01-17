@@ -1,4 +1,4 @@
-# Copyright (c) 2023 TIER IV.inc
+# Copyright (c) 2024 TIER IV.inc
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,8 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import autoware_auto_vehicle_msgs.msg as auto_vechile
-import autoware_vehicle_msgs.msg as aw_vehicloe
+import autoware_auto_vehicle_msgs.msg as auto_vehicle
+import autoware_vehicle_msgs.msg as aw_vehicle
 from builtin_interfaces.msg import Time
 from rclpy.clock import Clock
 from rosbag2_py import TopicMetadata
@@ -41,12 +41,12 @@ def test_change_topic_type() -> None:
 
 def test_convert_msg() -> None:
     now = get_time_now()
-    auto_control_report = auto_vechile.ControlModeReport(
+    auto_control_report = auto_vehicle.ControlModeReport(
         stamp=now,
-        mode=auto_vechile.ControlModeReport.AUTONOMOUS,
+        mode=auto_vehicle.ControlModeReport.AUTONOMOUS,
     )
     aw_control_report = convert_msg(auto_control_report)
-    assert aw_control_report == aw_vehicloe.ControlModeReport(
+    assert aw_control_report == aw_vehicle.ControlModeReport(
         stamp=now,
-        mode=aw_vehicloe.ControlModeReport.AUTONOMOUS,
+        mode=aw_vehicle.ControlModeReport.AUTONOMOUS,
     )

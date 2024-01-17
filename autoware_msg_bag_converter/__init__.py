@@ -1,4 +1,4 @@
-# Copyright (c) 2024TIER IV.inc
+# Copyright (c) 2024 TIER IV.inc
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ from os.path import expandvars
 from autoware_msg_bag_converter.converter import convert_bag
 
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("input", help="path of input bag with autoware_auto_msgs")
     parser.add_argument("output", help="path of output bag with autoware_msgs")
