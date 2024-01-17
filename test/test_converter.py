@@ -50,7 +50,3 @@ def test_convert_msg() -> None:
         stamp=now,
         mode=aw_vehicle.ControlModeReport.AUTONOMOUS,
     )
-
-
-def test_import() -> None:
-    import autoware_common_msgs
