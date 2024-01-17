@@ -28,6 +28,7 @@ from autoware_msg_bag_converter.msg import *  # noqa
 
 
 def change_topic_type(old_type: TopicMetadata) -> TopicMetadata:
+    # If old_type is not of type autoware_auto, the original message type remains
     return TopicMetadata(
         name=old_type.name,
         type=old_type.type.replace("autoware_auto_", "autoware_"),
@@ -37,6 +38,10 @@ def change_topic_type(old_type: TopicMetadata) -> TopicMetadata:
 
 def convert_msg(old_msg: Any) -> Any:
     old_representation = repr(old_msg)
+    # If the type of old_msg is not of type autoware_auto, old_msg is returned as is
+    # Because if the message type is not sourced when executing eval, a runtime error will occur.
+    if "autoware_auto_" not in old_representation:
+        return old_msg
     new_representation = old_representation.replace("autoware_auto_", "autoware_")
     return eval(new_representation)  # noqa
 
@@ -53,7 +58,7 @@ def convert_bag(input_bag_path: str, output_bag_path: str) -> None:
         type_map[topic_type.name] = topic_type.type
         new_topic_type = change_topic_type(
             topic_type,
-        )  # change autoware_auto_msg type with autoware_msg type
+        )
         writer.create_topic(new_topic_type)
 
     # convert msg type and write to output bag

@@ -23,12 +23,16 @@ colcon build --symlink-install --cmake-args -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -
 
 ## usage
 
-TODO
-
 ```shell
-ros2 run autoware_msg_bag_converter converter ${data_dir}
+cd $HOME/ros_ws/converter
+source install/setup.bash
+cd src/autoware_msg_bag_converter/autoware_msg_bag_converter
+python3 main.py ${input_bag} ${output_bag}
 ```
 
 ## demo
 
-TODO
+convert the [tutorial](https://autowarefoundation.github.io/autoware-documentation/main/tutorials/ad-hoc-simulation/rosbag-replay-simulation/) bag file.
+As of January 2024, it contains the autoware_auto message type.
+
+![demo](./demo.gif)
