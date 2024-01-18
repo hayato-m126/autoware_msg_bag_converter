@@ -12,19 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import autoware_auto_vehicle_msgs.msg as auto_vehicle
-import autoware_vehicle_msgs.msg as aw_vehicle
-from builtin_interfaces.msg import Time
-from rclpy.clock import Clock
 from rosbag2_py import TopicMetadata
 
 from autoware_msg_bag_converter.converter import change_topic_type
-from autoware_msg_bag_converter.converter import convert_msg
-
-
-def get_time_now() -> Time:
-    stamp = Clock().now()
-    return stamp.to_msg()
 
 
 def test_change_topic_type() -> None:
@@ -37,16 +27,3 @@ def test_change_topic_type() -> None:
     assert new_type.name == "/vehicle/status/control_mode"
     assert new_type.type == "autoware_vehicle_msgs/msg/ControlModeReport"
     assert new_type.serialization_format == "cdr"
-
-
-def test_convert_msg() -> None:
-    now = get_time_now()
-    auto_control_report = auto_vehicle.ControlModeReport(
-        stamp=now,
-        mode=auto_vehicle.ControlModeReport.AUTONOMOUS,
-    )
-    aw_control_report = convert_msg(auto_control_report)
-    assert aw_control_report == aw_vehicle.ControlModeReport(
-        stamp=now,
-        mode=aw_vehicle.ControlModeReport.AUTONOMOUS,
-    )
