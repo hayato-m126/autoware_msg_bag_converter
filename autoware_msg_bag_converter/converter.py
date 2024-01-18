@@ -16,15 +16,12 @@
 # https://github.com/ros2/rosbag2/blob/rolling/rosbag2_py/test/test_sequential_writer.py
 # https://github.com/ros2/rosbag2/blob/rolling/rosbag2_py/test/test_reindexer.py
 
-from typing import Any
-
 from rosbag2_py import Reindexer
 from rosbag2_py import TopicMetadata
 
 from autoware_msg_bag_converter.bag import create_reader
 from autoware_msg_bag_converter.bag import create_writer
 from autoware_msg_bag_converter.bag import get_default_storage_options
-from autoware_msg_bag_converter.msg import *  # noqa
 
 
 def change_topic_type(old_type: TopicMetadata) -> TopicMetadata:
@@ -34,16 +31,6 @@ def change_topic_type(old_type: TopicMetadata) -> TopicMetadata:
         type=old_type.type.replace("autoware_auto_", "autoware_"),
         serialization_format="cdr",
     )
-
-
-def convert_msg(old_msg: Any) -> Any:
-    old_representation = repr(old_msg)
-    # If the type of old_msg is not of type autoware_auto, old_msg is returned as is
-    # Because if the message type is not sourced when executing eval, a runtime error will occur.
-    if "autoware_auto_" not in old_representation:
-        return old_msg
-    new_representation = old_representation.replace("autoware_auto_", "autoware_")
-    return eval(new_representation)  # noqa
 
 
 def convert_bag(input_bag_path: str, output_bag_path: str) -> None:
@@ -61,11 +48,10 @@ def convert_bag(input_bag_path: str, output_bag_path: str) -> None:
         )
         writer.create_topic(new_topic_type)
 
-    # convert msg type and write to output bag
+    # copy data from input bag to output bag
     while reader.has_next():
-        topic_name, old_msg, stamp = reader.read_next()
-        new_msg = convert_msg(old_msg)
-        writer.write(topic_name, new_msg, stamp)
+        topic_name, msg, stamp = reader.read_next()
+        writer.write(topic_name, msg, stamp)
 
     # reindex to update metadata.yaml
     del writer
