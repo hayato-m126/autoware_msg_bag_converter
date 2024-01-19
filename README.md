@@ -27,7 +27,12 @@ colcon build --symlink-install --cmake-args -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -
 cd $HOME/ros_ws/converter
 source install/setup.bash
 cd src/autoware_msg_bag_converter/autoware_msg_bag_converter
+
+# convert one bag
 python3 main.py ${input_bag} ${output_bag}
+
+# convert multi bags in directory
+python3 main.py ${input_bag_dir} ${output_bag_dir} -d
 ```
 
 ## demo
