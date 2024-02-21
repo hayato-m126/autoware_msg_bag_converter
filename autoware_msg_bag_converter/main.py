@@ -23,7 +23,7 @@ def convert_bag_in_directory(input_dir: str, output_dir: str) -> None:
     input_root = Path(input_dir)
     output_root = Path(output_dir)
 
-    bag_paths = input_root.glob("**/*.db3")  # Will mcap conversion be supported?
+    bag_paths = input_root.glob("**/*.db3|**/*.mcap")
     for db3_path in bag_paths:
         input_bag_dir = db3_path.parent
         rel_path = input_bag_dir.relative_to(input_root)
