@@ -35,7 +35,7 @@ def test_get_rosbag_path() -> None:
     # Test to confirm bag path acquisition in directory mode
     input_root = Path(__file__).resolve().parent.joinpath("resource")
     output_root = Path(__file__).resolve().parent.joinpath("converted")
-    bag_paths = input_root.glob("**/*.db3|*.mcap")
+    bag_paths = input_root.glob("**/*.db3|*.mcap")  # not working
     for db3_path in bag_paths:
         input_bag_dir = db3_path.parent
         rel_path = input_bag_dir.relative_to(input_root)
