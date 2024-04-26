@@ -16,7 +16,7 @@ mkdir -p $HOME/ros_ws/converter/src
 cd $HOME/ros_ws/converter/src
 git clone https://github.com/hayato-m126/autoware_msg_bag_converter.git # to be updated
 cd autoware_msg_bag_converter
-vcs import .. < depedency.repos
+vcs import .. < dependency.repos
 cd $HOME/ros_ws/converter
 colcon build --symlink-install --cmake-args -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_BUILD_TYPE=Release
 ```
