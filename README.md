@@ -37,7 +37,7 @@ python3 main.py ${input_bag_dir} ${output_bag_dir} -d
 
 ## demo
 
-convert the [tutorial](https://autowarefoundation.github.io/autoware-documentation/main/tutorials/ad-hoc-simulation/rosbag-replay-simulation/) bag file.
-As of January 2024, it contains the autoware_auto message type.
+~~convert the [tutorial](https://autowarefoundation.github.io/autoware-documentation/main/tutorials/ad-hoc-simulation/rosbag-replay-simulation/) bag file.~~
+Conversion is not necessary because the bag has been uploaded already changed to autoware_msg since 6/7/2024
 
 ![demo](./demo.gif)
