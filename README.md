@@ -1,5 +1,9 @@
 # autoware_msg_bag_converter
 
+This repository will be archived after the following PRs are merged
+<https://github.com/autowarefoundation/autoware_tools/pull/48>
+See the autoware_tools repository.
+
 This package converts bag containing type autoware_auto_msg to autoware_msg.
 
 ## preparation
