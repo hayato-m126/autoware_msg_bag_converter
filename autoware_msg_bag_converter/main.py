@@ -15,6 +15,7 @@
 import argparse
 from os.path import expandvars
 from pathlib import Path
+import re
 
 from autoware_msg_bag_converter.converter import convert_bag
 
@@ -23,9 +24,10 @@ def convert_bag_in_directory(input_dir: str, output_dir: str) -> None:
     input_root = Path(input_dir)
     output_root = Path(output_dir)
 
-    bag_paths = input_root.glob("**/*.db3")  # Will mcap conversion be supported?
-    for db3_path in bag_paths:
-        input_bag_dir = db3_path.parent
+    pattern = re.compile(r".*\.(db3|mcap)$")
+    bag_paths = [p for p in input_root.rglob("*") if pattern.match(str(p))]
+    for db3_or_mcap_path in bag_paths:
+        input_bag_dir = db3_or_mcap_path.parent
         rel_path = input_bag_dir.relative_to(input_root)
         output_bag_dir = output_root.joinpath(rel_path)
         convert_bag(input_bag_dir.as_posix(), output_bag_dir.as_posix())

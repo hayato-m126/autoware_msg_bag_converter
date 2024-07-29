@@ -13,6 +13,7 @@
 # limitations under the License.
 
 from pathlib import Path
+import re
 
 from rosbag2_py import TopicMetadata
 
@@ -35,7 +36,9 @@ def test_get_rosbag_path() -> None:
     # Test to confirm bag path acquisition in directory mode
     input_root = Path(__file__).resolve().parent.joinpath("resource")
     output_root = Path(__file__).resolve().parent.joinpath("converted")
-    bag_paths = input_root.glob("**/*.db3")
+    pattern = re.compile(r".*\.(db3|mcap)$")
+    bag_paths = [p for p in input_root.rglob("*") if pattern.match(str(p))]
+    assert len(bag_paths) == 3  # noqa
     for db3_path in bag_paths:
         input_bag_dir = db3_path.parent
         rel_path = input_bag_dir.relative_to(input_root)
