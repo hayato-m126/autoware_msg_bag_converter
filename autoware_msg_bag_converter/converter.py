@@ -16,6 +16,8 @@
 # https://github.com/ros2/rosbag2/blob/rolling/rosbag2_py/test/test_sequential_writer.py
 # https://github.com/ros2/rosbag2/blob/rolling/rosbag2_py/test/test_reindexer.py
 
+from pathlib import Path
+
 from rosbag2_py import Reindexer
 from rosbag2_py import TopicMetadata
 
@@ -33,7 +35,12 @@ def change_topic_type(old_type: TopicMetadata) -> TopicMetadata:
     )
 
 
-def convert_bag(input_bag_path: str, output_bag_path: str, storage_type: str) -> None:
+def convert_bag(input_bag_path: str, output_bag_path: str) -> None:
+    p_input = Path(input_bag_path)
+    storage_type = "mcap"
+    for _ in p_input.glob("*.db3"):
+        storage_type = "sqlite3"
+        break
     # open reader
     reader = create_reader(input_bag_path, storage_type)
     # open writer
