@@ -25,15 +25,15 @@ def get_default_converter_options() -> ConverterOptions:
     )
 
 
-def get_default_storage_options(uri: str) -> StorageOptions:
+def get_storage_options(uri: str, storage_type: str) -> StorageOptions:
     return StorageOptions(
         uri=uri,
-        storage_id="sqlite3",
+        storage_id=storage_type,
     )
 
 
-def create_reader(bag_dir: str) -> SequentialReader:
-    storage_options = get_default_storage_options(bag_dir)
+def create_reader(bag_dir: str, storage_type: str) -> SequentialReader:
+    storage_options = get_storage_options(bag_dir, storage_type)
     converter_options = get_default_converter_options()
 
     reader = SequentialReader()
@@ -41,8 +41,8 @@ def create_reader(bag_dir: str) -> SequentialReader:
     return reader
 
 
-def create_writer(bag_dir: str) -> SequentialWriter:
-    storage_options = get_default_storage_options(bag_dir)
+def create_writer(bag_dir: str, storage_type: str) -> SequentialReader:
+    storage_options = get_storage_options(bag_dir, storage_type)
     converter_options = get_default_converter_options()
 
     writer = SequentialWriter()

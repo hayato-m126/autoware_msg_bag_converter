@@ -21,7 +21,7 @@ from rosbag2_py import TopicMetadata
 
 from autoware_msg_bag_converter.bag import create_reader
 from autoware_msg_bag_converter.bag import create_writer
-from autoware_msg_bag_converter.bag import get_default_storage_options
+from autoware_msg_bag_converter.bag import get_storage_options
 
 
 def change_topic_type(old_type: TopicMetadata) -> TopicMetadata:
@@ -33,11 +33,11 @@ def change_topic_type(old_type: TopicMetadata) -> TopicMetadata:
     )
 
 
-def convert_bag(input_bag_path: str, output_bag_path: str) -> None:
+def convert_bag(input_bag_path: str, output_bag_path: str, storage_type: str) -> None:
     # open reader
-    reader = create_reader(input_bag_path)
+    reader = create_reader(input_bag_path, storage_type)
     # open writer
-    writer = create_writer(output_bag_path)
+    writer = create_writer(output_bag_path, storage_type)
 
     # create topic
     type_map = {}
@@ -55,4 +55,4 @@ def convert_bag(input_bag_path: str, output_bag_path: str) -> None:
 
     # reindex to update metadata.yaml
     del writer
-    Reindexer().reindex(get_default_storage_options(output_bag_path))
+    Reindexer().reindex(get_storage_options(output_bag_path, storage_type))
