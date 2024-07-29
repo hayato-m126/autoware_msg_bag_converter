@@ -21,6 +21,14 @@ cd $HOME/ros_ws/converter
 colcon build --symlink-install --cmake-args -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_BUILD_TYPE=Release
 ```
 
+### Optional
+
+If you want to use `mcap` format bags, you need to install the mcap package in advance.
+
+```shell
+sudo apt install ros-humble-rosbag2-storage-mcap
+```
+
 ## usage
 
 ```shell
