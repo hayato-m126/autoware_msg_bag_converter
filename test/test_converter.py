@@ -21,15 +21,25 @@ from autoware_msg_bag_converter.converter import change_topic_type
 
 
 def test_change_topic_type() -> None:
-    old_type = TopicMetadata(
+    auto_type = TopicMetadata(
         name="/vehicle/status/control_mode",
         type="autoware_auto_vehicle_msgs/msg/ControlModeReport",
         serialization_format="cdr",
     )
-    new_type = change_topic_type(old_type)
+    new_type = change_topic_type(auto_type)
     assert new_type.name == "/vehicle/status/control_mode"
     assert new_type.type == "autoware_vehicle_msgs/msg/ControlModeReport"
     assert new_type.serialization_format == "cdr"
+
+    not_auto_type = TopicMetadata(
+        name="/tf",
+        type="tf2_msgs/msg/TFMessage",
+        serialization_format="cdr",
+    )
+    not_changed_type = change_topic_type(not_auto_type)
+    assert not_auto_type.name == not_changed_type.name
+    assert not_auto_type.type == not_changed_type.type
+    assert not_auto_type.serialization_format == not_changed_type.serialization_format
 
 
 def test_get_rosbag_path() -> None:

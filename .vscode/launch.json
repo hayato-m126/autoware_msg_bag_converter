@@ -6,7 +6,7 @@
   "configurations": [
     {
       "name": "Python: Current File",
-      "type": "python",
+      "type": "debugpy",
       "request": "launch",
       "program": "${file}",
       "console": "integratedTerminal",
@@ -14,11 +14,11 @@
     },
     {
       "name": "main (Workspace must be sourced before execution)",
-      "type": "python",
+      "type": "debugpy",
       "request": "launch",
       "program": "autoware_msg_bag_converter/main.py",
       "console": "integratedTerminal",
-      "args": ["$HOME/data/sample-rosbag", "$HOME/data/converted-rosbag"]
+      "args": ["$HOME/convert_test/input_bag", "$HOME/convert_test/converted_bag"]
     }
   ]
 }

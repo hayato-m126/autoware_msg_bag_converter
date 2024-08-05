@@ -37,10 +37,22 @@ source install/setup.bash
 cd src/autoware_msg_bag_converter/autoware_msg_bag_converter
 
 # convert one bag
-python3 main.py ${input_bag} ${output_bag}
+python3 main.py ${input_bag_dir} ${output_bag_dir}
 
 # convert multi bags in directory
-python3 main.py ${input_bag_dir} ${output_bag_dir} -d
+python3 main.py ${input_bag_dir_root} ${output_bag_dir_root} -d
+```
+
+```shell
+# example
+$ tree
+bag_root # <- input_bag_dir_root
+├── sample_mcap # <- input_bag_dir 
+│   ├── metadata.yaml
+│   └── sample_mcap_0.db3
+└── sample_sqlite3 # <- input_bag_dir 
+    ├── metadata.yaml
+    └── sample_sqlite3_0.db3
 ```
 
 ## demo
