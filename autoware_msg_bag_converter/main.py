@@ -19,6 +19,18 @@ import re
 
 from autoware_msg_bag_converter.converter import convert_bag
 
+EXAMPLE_MESSAGE = """
+# example
+$ tree
+bag_root # <- input_bag_dir_root
+├── sample_mcap # <- input_bag_dir
+│   ├── metadata.yaml
+│   └── sample_mcap_0.db3
+└── sample_sqlite3 # <- input_bag_dir
+    ├── metadata.yaml
+    └── sample_sqlite3_0.db3
+"""
+
 
 def convert_bag_in_directory(input_dir: str, output_dir: str) -> None:
     input_root = Path(input_dir)
@@ -35,8 +47,8 @@ def convert_bag_in_directory(input_dir: str, output_dir: str) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("input", help="path of input bag with autoware_auto_msgs")
-    parser.add_argument("output", help="path of output bag with autoware_msgs")
+    parser.add_argument("input", help="path of input bag directory with autoware_auto_msgs")
+    parser.add_argument("output", help="path of output bag directory with autoware_msgs")
     parser.add_argument(
         "--directory",
         "-d",
@@ -44,6 +56,10 @@ def main() -> None:
         help="If this option is specified, all rosbags under the directory specified in input will be converted",
     )
     args = parser.parse_args()
+    if not Path(args.input).is_dir():
+        print(f"{args.input=} is not directory")  # noqa
+        print(EXAMPLE_MESSAGE)  # noqa
+        return
     if not args.directory:
         convert_bag(expandvars(args.input), expandvars(args.output))
     else:
