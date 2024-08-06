@@ -24,8 +24,8 @@ EXAMPLE_MESSAGE = """
 $ tree
 bag_root # <- input_bag_dir_root
 ├── sample_mcap # <- input_bag_dir
-│   ├── metadata.yaml
-│   └── sample_mcap_0.db3
+│    ── metadata.yaml
+│   └── sample_mcap_0.db3
 └── sample_sqlite3 # <- input_bag_dir
     ├── metadata.yaml
     └── sample_sqlite3_0.db3

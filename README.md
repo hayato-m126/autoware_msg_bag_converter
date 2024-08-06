@@ -47,10 +47,10 @@ python3 main.py ${input_bag_dir_root} ${output_bag_dir_root} -d
 # example
 $ tree
 bag_root # <- input_bag_dir_root
-├── sample_mcap # <- input_bag_dir 
+├── sample_mcap # <- input_bag_dir
 │   ├── metadata.yaml
 │   └── sample_mcap_0.db3
-└── sample_sqlite3 # <- input_bag_dir 
+└── sample_sqlite3 # <- input_bag_dir
     ├── metadata.yaml
     └── sample_sqlite3_0.db3
 ```
